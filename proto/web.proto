@@ -1,0 +1,37 @@
+syntax = "proto3";
+
+// Bentukan request buat ngambil note (catatan)
+message NoteRequest {
+  /* Kasih tau, cari catatannya dimulai dari id berapa nih
+  Batasan yang diperbolehkan adalah batasan unsigned int32 */
+  uint32 offset = 1;
+  /* Minta server buat kasih limit ke response nya
+  Batasan yang diperbolehkan adalah batasan unsigned int32 */
+  uint32 limit = 2;
+  /* Filter catatannya nih, apakah ambil catatan yang privat saja atau tidak
+  Hanya bisa berisi true atau false */
+  bool is_private = 3;
+}
+
+// Skema buat catatan dimulai dari judul hingga isi
+message NoteMessage {
+  /* ID catatan, ini seharusnya unik di setiap catatan */
+  uint32 id = 1;
+  /* Tanggal dan waktu catatan ini dibuat (waktu disediakan dalam bentuk unix
+   * time) */
+  uint32 created_at = 2;
+  /* Judul dari catatan ini */
+  string title = 3;
+  /* Isi dari catatan ini */
+  string content = 4;
+  /* Nama pembuat catatan ini */
+  string creator_name = 5;
+}
+
+// Bentukan respon terhadap request note yang diberikan
+message NoteResponse {
+  /* Mengindikasikan berapa banyak note/catatan yang dikembalikan */
+  uint32 total_note = 1;
+  /* List catatan sesuai dengan permintaan client */
+  repeated NoteMessage note_list = 2;
+}
